@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:triple_example/home/models/todo_ui.dart';
 import 'package:triple_example/home/widgets/todo_list_item.dart';
@@ -17,7 +18,7 @@ class Todos extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 24.w),
               child: Text(
-                'Todo list is empty.',
+                AppLocalizations.of(context)!.emptyTodos,
                 style: TextStyle(fontSize: 20.sp),
                 textAlign: TextAlign.center,
               ),

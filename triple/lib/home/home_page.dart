@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 import 'package:triple_example/home/store/home_state.dart';
@@ -59,16 +60,16 @@ class _HomePageState extends State<HomePage> {
                 Expanded(
                   child: TextField(
                     controller: _controller,
-                    decoration: const InputDecoration(
-                      hintText: 'Type something',
-                      border: OutlineInputBorder(),
+                    decoration: InputDecoration(
+                      hintText: AppLocalizations.of(context)!.textFieldHint,
+                      border: const OutlineInputBorder(),
                     ),
                   ),
                 ),
                 SizedBox(width: 8.w),
                 ElevatedButton(
                   onPressed: () => _onTapCreate(context),
-                  child: const Text('Create'),
+                  child: Text(AppLocalizations.of(context)!.buttonText),
                 ),
               ],
             ),
