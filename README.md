@@ -3,9 +3,13 @@
  - Triple - [Template](triple/) / [Documentation](https://triple.flutterando.com.br/)
 
  ## Android Screenshots
+<p>
 <img src="/doc/preview/android_empty_list.png" width="32%"/>
 <img src="/doc/preview/android_filled_list.png" width="32%"/>
+</p>
 
 ## iOS Screenshots
+<p>
 <img src="/doc/preview/ios_empty_list.png" width="32%"/>
 <img src="/doc/preview/ios_filled_list.png" width="32%"/>
+</p>
