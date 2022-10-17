@@ -1,1 +1,3 @@
-# flutter_templates
+ - Bloc - [Template](bloc/) / [Documentation](https://bloclibrary.dev/#/)
+ - Riverpod - [Template](riverpod/) / [Documentation](https://riverpod.dev/)
+ - Triple - [Template](triple/) / [Documentation](https://triple.flutterando.com.br/)
