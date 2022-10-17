@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_template_riverpod/common/ui/app_colors.dart';
 import 'package:flutter_template_riverpod/common/ui/app_text_styles.dart';
 import 'package:flutter_template_riverpod/todo/provider/todo_provider.dart';
 import 'package:flutter_template_riverpod/todo/provider/todo_state.dart';
@@ -53,22 +54,24 @@ class _TodoPageState extends ConsumerState<TodoPage> {
         Expanded(child: Todos(todos: ref.read(widget._provider).todos)),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.w),
-          child: Row(
-            children: [
-              Expanded(
-                child: TextField(controller: _controller),
-              ),
-              SizedBox(width: 8.w),
-              ElevatedButton(
+          child: TextField(
+            controller: _controller,
+            decoration: InputDecoration(
+              hintText: AppLocalizations.of(context)!.textFieldHint,
+              border: const OutlineInputBorder(),
+              suffixIcon: TextButton(
                 onPressed: () => _onTapCreate(context),
                 child: Text(
                   AppLocalizations.of(context)!.buttonText,
-                  style: AppTextStyles.regular,
+                  style: AppTextStyles.bold.copyWith(
+                    color: AppColors.accent,
+                  ),
                 ),
               ),
-            ],
+            ),
           ),
         ),
+        SizedBox(height: 16.h),
       ],
     );
   }
