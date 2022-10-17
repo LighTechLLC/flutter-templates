@@ -5,6 +5,7 @@ import 'package:triple_example/common/env/config.dart';
 import 'package:triple_example/common/env/debug_options.dart';
 import 'package:triple_example/common/env/environment.dart';
 import 'package:triple_example/common/routes_factory.dart';
+import 'package:triple_example/common/ui/themes.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
@@ -26,6 +27,7 @@ class App extends StatelessWidget {
         initialRoute: RoutesFactory.initialRoute,
         onGenerateRoute: RoutesFactory().getGeneratedRoutes,
         title: 'Triple template',
+        theme: lightTheme,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         builder: (context, child) => MediaQuery(
