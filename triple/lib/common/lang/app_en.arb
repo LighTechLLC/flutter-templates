@@ -1,0 +1,6 @@
+{
+    "@@locale": "en",
+    "buttonText": "Create",
+    "textFieldHint": "Type something",
+    "emptyTodos": "Todo list is empty. Create your first one"
+}
