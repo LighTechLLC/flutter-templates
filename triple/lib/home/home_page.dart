@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_triple/flutter_triple.dart';
+import 'package:triple_example/common/ui/app_colors.dart';
+import 'package:triple_example/common/ui/app_text_styles.dart';
 import 'package:triple_example/home/store/home_state.dart';
 import 'package:triple_example/home/store/home_store.dart';
 import 'package:triple_example/home/widgets/todos.dart';
@@ -54,24 +56,20 @@ class _HomePageState extends State<HomePage> {
         Expanded(child: Todos(state.todos)),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.w),
-          child: SizedBox(
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _controller,
-                    decoration: InputDecoration(
-                      hintText: AppLocalizations.of(context)!.textFieldHint,
-                      border: const OutlineInputBorder(),
-                    ),
+          child: TextField(
+            controller: _controller,
+            decoration: InputDecoration(
+              hintText: AppLocalizations.of(context)!.textFieldHint,
+              border: const OutlineInputBorder(),
+              suffixIcon: TextButton(
+                onPressed: () => _onTapCreate(context),
+                child: Text(
+                  AppLocalizations.of(context)!.buttonText,
+                  style: AppTextStyles.bold.copyWith(
+                    color: AppColors.accent,
                   ),
                 ),
-                SizedBox(width: 8.w),
-                ElevatedButton(
-                  onPressed: () => _onTapCreate(context),
-                  child: Text(AppLocalizations.of(context)!.buttonText),
-                ),
-              ],
+              ),
             ),
           ),
         ),

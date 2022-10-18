@@ -11,7 +11,7 @@ class RoutesFactory {
   Map<String, Widget Function(BuildContext)> get _routes => {
         Routes.home: (context) {
           return AnnotatedRegion<SystemUiOverlayStyle>(
-            value: SystemUiOverlayStyle.light,
+            value: SystemUiOverlayStyle.dark,
             child: HomePage(homeStore: getIt<HomeStore>()),
           );
         },
