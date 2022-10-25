@@ -1,4 +1,4 @@
-# flutter-templates
+# Flutter templates
 Flutter basic templates project with Riverpod, Bloc and Triple state managers. Basic framework to implement internationalization, theme peeling functions, among others.
 
 This template streamlines the project delivery with **static analysis** and **continuous integration** in one place.
