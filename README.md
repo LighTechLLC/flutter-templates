@@ -94,7 +94,7 @@ flutter pub run flutter_launcher_icons:main
 ```bash
 flutter create --platforms web --org com.new_package_name --project-name new_name .
 ```
-Where com.new_package_name is the new Package Name from the paragraph [Change Package Name](#1-change-package-name)
+Where com.new_package_name is the new Package Name from the paragraph [Change Package Name](#1-package-name-change)
 
 Where new_name is the new name in pubspec.yaml from the paragraph [Change name in pubspec.yaml](#2-change-name-in-pubspecyaml)
 
