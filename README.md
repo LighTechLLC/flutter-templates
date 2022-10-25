@@ -75,13 +75,13 @@ To change an icon - [flutter_launcher_icons](https://pub.dev/packages/flutter_la
 
 ```yaml
 flutter_icons:
-	android: "launcher_icon"
-	ios: true
-	remove_alpha_ios: true
-	image_path_ios: "res/icon/icon.png"
-	image_path_android: "res/icon/icon_android.png"
-	adaptive_icon_background: "#000000"
-	adaptive_icon_foreground: "res/icon/icon_android.png"
+  android: "launcher_icon"
+  ios: true
+  remove_alpha_ios: true
+  image_path_ios: "res/icon/icon.png"
+  image_path_android: "res/icon/icon_android.png"
+  adaptive_icon_background: "#000000"
+  adaptive_icon_foreground: "res/icon/icon_android.png"
 ```
 
 To renew the icon run the command:
