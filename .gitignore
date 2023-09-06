@@ -1,9 +1,9 @@
-**/.idea
+.idea
 
-**/build/
-**/ios/.generated/
-**/ios/Flutter/Generated.xcconfig
-**/ios/Runner/GeneratedPluginRegistrant.*
+build/
+ios/.generated/
+ios/Flutter/Generated.xcconfig
+ios/Runner/GeneratedPluginRegistrant.*
 
 # Miscellaneous
 *.class
@@ -31,6 +31,7 @@
 .packages
 .pub-cache/
 .pub/
+/build/
 *.lock
 .flutter-plugins
 .flutter-plugins-dependencies
@@ -81,3 +82,8 @@
 # Generated code
 *.g.dart
 *.mocks.dart
+*.freezed.dart
+*.config.dart
+
+# Environment config
+res/config/*.json

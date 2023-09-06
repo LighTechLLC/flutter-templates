@@ -6,9 +6,12 @@ analyzer:
   exclude:
     - '**.g.dart'
     - '**.mocks.dart'
-  strong-mode:
-    implicit-casts: false
-    implicit-dynamic: false
+    - '**.config.dart'
+    - '**.freezed.dart'
+  language:
+    strict-casts: true
+    strict-inference: true
+    strict-raw-types: true
 
 dart_code_metrics:
   metrics:
@@ -18,6 +21,8 @@ dart_code_metrics:
     - 'test/**'
     - 'lib/common/routes_factory.dart'
   rules:
+    - newline-before-return:
+        severity: error
     - avoid-unnecessary-setstate:
         severity: error
     - prefer-extracting-callbacks:
@@ -174,8 +179,7 @@ linter:
     empty_statements: true
     hash_and_equals: true
     invariant_booleans: true
-    iterable_contains_unrelated_type: true
-    list_remove_unrelated_type: true
+    collection_methods_unrelated_type: true
     literal_only_boolean_expressions: true
     no_adjacent_strings_in_list: true
     no_duplicate_case_values: true

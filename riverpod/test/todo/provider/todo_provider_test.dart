@@ -50,7 +50,7 @@ void main() {
     final provider = StateNotifierProvider<TodoProvider, TodoState>(
       (ref) => TodoProvider(
         todoRepository,
-        state: const TodoState(todos: todoUiList, isLoading: false),
+        state: const TodoState(todos: todoUiList),
       ),
     );
 
@@ -62,7 +62,7 @@ void main() {
     final provider = StateNotifierProvider<TodoProvider, TodoState>(
       (ref) => TodoProvider(
         todoRepository,
-        state: const TodoState(todos: todoUiList, isLoading: false),
+        state: const TodoState(todos: todoUiList),
       ),
     );
 

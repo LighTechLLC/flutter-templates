@@ -4,7 +4,9 @@ import 'package:flutter_template_riverpod/todo/models/todo_hive.dart';
 import 'package:flutter_template_riverpod/todo/models/todo_ui.dart';
 import 'package:flutter_template_riverpod/todo/provider/todo_repository.dart';
 import 'package:flutter_template_riverpod/todo/provider/todo_state.dart';
+import 'package:injectable/injectable.dart';
 
+@injectable
 class TodoProvider extends StateNotifier<TodoState> {
   TodoProvider(this._todoRepository, {@visibleForTesting TodoState? state})
       : super(state ?? const TodoState());

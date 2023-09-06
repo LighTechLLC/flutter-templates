@@ -16,6 +16,7 @@ void main() {
           locale: const Locale('en'),
           builder: (context, child) {
             message = AppLocalizations.of(context)!.emptyTodos;
+
             return child!;
           },
           home: const Todos(todos: []),

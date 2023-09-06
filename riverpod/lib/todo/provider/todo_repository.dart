@@ -1,11 +1,14 @@
 import 'package:flutter_template_riverpod/todo/models/todo_hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:injectable/injectable.dart';
 
+@lazySingleton
 class TodoRepository {
   static const _boxName = 'todo_box';
 
   Future<Map<dynamic, TodoHive>> fetchAll() async {
     final box = await Hive.openBox<TodoHive>(_boxName);
+
     return box.toMap();
   }
 

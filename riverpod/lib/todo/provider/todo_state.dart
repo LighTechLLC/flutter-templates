@@ -1,19 +1,12 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter_template_riverpod/todo/models/todo_ui.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class TodoState extends Equatable {
-  const TodoState({this.isLoading = true, this.todos = const []});
+part 'todo_state.freezed.dart';
 
-  final List<TodoUi> todos;
-  final bool isLoading;
-
-  TodoState copyWith({List<TodoUi>? todos, bool? isLoading}) {
-    return TodoState(
-      todos: todos ?? this.todos,
-      isLoading: isLoading ?? this.isLoading,
-    );
-  }
-
-  @override
-  List<Object?> get props => [isLoading, todos];
+@freezed
+class TodoState with _$TodoState {
+  const factory TodoState({
+    @Default([]) List<TodoUi> todos,
+    @Default(false) bool isLoading,
+  }) = _TodoState;
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_template_riverpod/common/di/injector.dart';
+import 'package:flutter_template_riverpod/common/di/injector_configurator.dart';
 import 'package:flutter_template_riverpod/common/ui/app_text_styles.dart';
 import 'package:flutter_template_riverpod/todo/models/todo_ui.dart';
 import 'package:flutter_template_riverpod/todo/provider/todo_provider.dart';
