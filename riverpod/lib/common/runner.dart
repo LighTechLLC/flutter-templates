@@ -8,7 +8,6 @@ import 'package:flutter_template_riverpod/todo/models/todo_hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 Future<void> run() async {
-  WidgetsFlutterBinding.ensureInitialized();
   await setupDependencies();
 
   await Hive.initFlutter();
@@ -19,12 +18,5 @@ Future<void> run() async {
     DeviceOrientation.portraitDown,
   ]);
 
-  _runApp();
-}
-
-void _runApp() {
-  runZonedGuarded<Future<void>>(
-    () async => runApp(const App()),
-    (object, stackTrace) {},
-  );
+  runApp(const App());
 }

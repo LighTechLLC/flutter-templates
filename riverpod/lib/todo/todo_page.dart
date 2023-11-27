@@ -11,9 +11,8 @@ import 'package:flutter_template_riverpod/todo/widgets/todos.dart';
 class TodoPage extends ConsumerStatefulWidget {
   const TodoPage({
     required StateNotifierProvider<TodoProvider, TodoState> provider,
-    Key? key,
-  })  : _provider = provider,
-        super(key: key);
+    super.key,
+  }) : _provider = provider;
 
   final StateNotifierProvider<TodoProvider, TodoState> _provider;
 
