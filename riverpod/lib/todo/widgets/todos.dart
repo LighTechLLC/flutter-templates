@@ -6,9 +6,7 @@ import 'package:flutter_template_riverpod/todo/models/todo_ui.dart';
 import 'package:flutter_template_riverpod/todo/widgets/todo_list_item.dart';
 
 class Todos extends StatelessWidget {
-  const Todos({required List<TodoUi> todos, Key? key})
-      : _todos = todos,
-        super(key: key);
+  const Todos({required List<TodoUi> todos, super.key}) : _todos = todos;
 
   final List<TodoUi> _todos;
 

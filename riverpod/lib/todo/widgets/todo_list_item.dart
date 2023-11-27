@@ -8,9 +8,7 @@ import 'package:flutter_template_riverpod/todo/provider/todo_provider.dart';
 import 'package:flutter_template_riverpod/todo/provider/todo_state.dart';
 
 class TodoListItem extends ConsumerWidget {
-  const TodoListItem({required TodoUi todo, Key? key})
-      : _todo = todo,
-        super(key: key);
+  const TodoListItem({required TodoUi todo, super.key}) : _todo = todo;
 
   final TodoUi _todo;
 
