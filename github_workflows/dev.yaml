@@ -1,0 +1,39 @@
+name: dev
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    branches: 
+      - 'dev'
+
+jobs:
+  test:
+    name: Test
+    if: startsWith(github.head_ref, 'feature') || startsWith(github.head_ref, 'hotfix')
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '11'
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: 'Get dependencies'
+        run: flutter pub get
+
+      - name: 'Code generation'
+        run: dart pub run build_runner build
+
+      - name: 'Check code style'
+        run: dart format --set-exit-if-changed lib
+
+      - name: 'Analyze'
+        run: flutter analyze
+
+      - name: 'Tests'
+        run: flutter test

@@ -1,0 +1,58 @@
+name: dev build
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - dev
+
+jobs:
+  build_if_merged:
+    if: github.event.pull_request.merged == true && (startsWith(github.head_ref, 'feature') || startsWith(github.head_ref, 'hotfix'))
+    name: Build Flutter (Android)
+    runs-on: ubuntu-latest
+    env:
+      OUTPUT_NAME: "name"
+      DEV_BASE_URL: ${{ secrets.DEV_BASE_URL }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '11'
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: 'Create environment json'
+        id: create-json
+        uses: jsdaniell/create-json@v1.2.2
+        with:
+          name: "development.json"
+          json: >-
+            {
+              "base_url": "${{ env.DEV_BASE_URL }}"
+            }
+          dir: 'res/config'
+
+      - name: 'Get dependencies'
+        run: flutter pub get
+  
+      - name: 'Code generation'
+        run: dart run build_runner build
+
+      - name: 'Build APK'
+        run: flutter build apk --target-platform android-arm,android-arm64,android-x64 -t lib/main_dev.dart --release
+
+      - name: Rename APK 
+        run:
+          mv "./build/app/outputs/apk/release/app-release.apk" "./build/app/outputs/apk/release/${{ env.OUTPUT_NAME }}_release.apk"
+
+      - name: 'Upload APK'
+        uses: actions/upload-artifact@v2
+        with:
+          name: name-apk-build
+          path: build/app/outputs/apk/release
+          retention-days: 7

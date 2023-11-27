@@ -1,0 +1,147 @@
+name: stage build
+
+on:
+  push:
+    branches:
+      - 'stage'
+
+jobs:
+  build_ios:
+    name: 'Release stage build (iOS)'
+    runs-on: macos-latest
+    if: "!contains(github.event.head_commit.message, '[ci skip]')"
+    env:
+      STAGE_BASE_URL: ${{ secrets.STAGE_BASE_URL }}
+
+    steps:
+      - uses: webfactory/ssh-agent@v0.7.0
+        with:
+            ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '11'
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: 'Create environment json'
+        id: create-json
+        uses: jsdaniell/create-json@v1.2.2
+        with:
+          name: "test.json"
+          json: >-
+            {
+              "base_url": "${{ env.STAGE_BASE_URL }}"
+            }
+          dir: 'res/config'
+
+      - name: 'Get dependencies'
+        run: flutter pub get
+
+      - name: 'Code generation'
+        run: flutter pub run build_runner build
+
+      - name: 'Build IPA'
+        run: flutter build ios --release --no-codesign -t lib/main_stage.dart
+
+      - name: 'Sign IPA'
+        uses: yukiarrr/ios-build-action@v1.11.0
+        with:
+          export-method: 'app-store'
+          project-path: ios/Runner.xcodeproj
+          p12-base64: ${{ secrets.DISTRIBUTION_P12_BASE64 }}
+          mobileprovision-base64: |
+            ${{ secrets.DISTRIBUTION_MOBILEPROVISION_BASE64 }}
+            ${{ secrets.DISTRIBUTION_ONESIGNAL_MOBILEPROVISION_BASE64 }}
+          code-signing-identity: ${{ secrets.DISTRIBUTION_CODE_SIGNING_IDENTITY }}
+          team-id: ${{ secrets.DISTRIBUTION_TEAM_ID }}
+          workspace-path: ios/Runner.xcworkspace
+          output-path: 'Runner.ipa'
+
+      - name: 'Upload failure fastlane build log'
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: errors.log
+          path: /Users/runner/Library/Logs/gym/Runner-Runner.log
+          retention-days: 1
+
+      - name: 'Upload IPA to TestFlight'
+        uses: apple-actions/upload-testflight-build@v1
+        with:
+          app-path: 'Runner.ipa'
+          issuer-id: ${{ secrets.DISTRIBUTION_APPSTORE_ISSUER_ID }}
+          api-key-id: ${{ secrets.DISTRIBUTION_APPSTORE_API_KEY_ID }}
+          api-private-key: ${{ secrets.DISTRIBUTION_APPSTORE_API_PRIVATE_KEY }}
+
+  build_android:
+    name: 'Release stage build (Android)'
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[ci skip]')"
+    env:
+      STAGE_BASE_URL: ${{ secrets.STAGE_BASE_URL }}
+
+    steps:
+      - uses: webfactory/ssh-agent@v0.7.0
+        with:
+            ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '11'
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: 'Create environment json'
+        id: create-json
+        uses: jsdaniell/create-json@v1.2.2
+        with:
+          name: "test.json"
+          json: >-
+            {
+              "base_url": "${{ env.STAGE_BASE_URL }}"
+            }
+          dir: 'res/config'
+
+      - name: 'Get dependencies'
+        run: flutter pub get
+
+      - name: 'Code generation'
+        run: flutter pub run build_runner build
+
+      - name: 'Build APK'
+        run: flutter build apk --target-platform android-arm,android-arm64,android-x64 -t lib/main_stage.dart --release
+
+      - name: 'Unsign APK'
+        run: zip -d build/app/outputs/flutter-apk/app-release.apk META-INF/\*
+
+      - name: 'Sign APK'
+        id: sign_apk
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: build/app/outputs/apk/release/
+          signingKeyBase64: ${{ secrets.ANDROID_SIGNING_KEY_BASE64 }}
+          alias: ${{ secrets.ANDROID_KEY_ALIAS }}
+          keyStorePassword: ${{ secrets.ANDROID_KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.ANDROID_KEY_PASSWORD }}
+
+      - name: 'Upload Build to Firebase'
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{secrets.FIREBASE_ANDROID_APP_ID}}
+          groups: all
+          file: ${{steps.sign_apk.outputs.signedReleaseFile}}
+          serviceCredentialsFileContent: ${{ secrets.FIREBASE_CREDENTIAL_FILE_CONTENT }}
+
+      - name: 'Upload APK'
+        uses: actions/upload-artifact@v2
+        with:
+          name: apk-build
+          path: build/app/outputs/apk/release
+          retention-days: 7

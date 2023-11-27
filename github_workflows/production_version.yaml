@@ -1,0 +1,27 @@
+name: Production Version Changer
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  update_version:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[ci skip]')"
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v4
+      - name: 'Bump build'
+        run: perl -i -pe 's/^(version:\s+\d+\.\d+\.\d+\+)(\d+)$/$1.($2+1)/e' pubspec.yaml
+      - name: 'Commit files'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git commit -m "Bump Version [ci skip]" -a
+      - name: 'Push changes'
+        uses: ad-m/github-push-action@master
+        with:
+          tags: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
